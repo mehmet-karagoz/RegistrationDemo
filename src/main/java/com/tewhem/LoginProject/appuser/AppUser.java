@@ -28,8 +28,8 @@ import lombok.Setter;
 public class AppUser implements UserDetails {
 
     @Id
-    @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
+    @SequenceGenerator(name = "appuser_sequence", sequenceName = "appuser_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appuser_sequence")
     private Long id;
     private String name;
     private String userName;
