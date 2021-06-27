@@ -21,12 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public WebSecurityConfig(AppUserService appUserService,
-            BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.appUserService = appUserService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()

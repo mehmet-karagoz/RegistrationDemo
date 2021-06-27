@@ -14,10 +14,6 @@ public class RegistrationController {
 
     private final RegistrationService registrationService;
 
-    public RegistrationController(RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
-
     @PostMapping
     public String register(@RequestBody RegistrationRequest request) {
         return registrationService.register(request);
