@@ -1,5 +1,11 @@
 package com.tewhem.LoginProject.appuser;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import com.tewhem.LoginProject.registration.token.ConfirmationToken;
+import com.tewhem.LoginProject.registration.token.ConfirmationTokenService;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +21,7 @@ public class AppUserService implements UserDetailsService {
     private static final String USER_NOT_FOUND = "user with email %s not found";
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String email)
@@ -36,8 +43,20 @@ public class AppUserService implements UserDetailsService {
 
         appUser.setPassword(encodedPassword);
 
-        // TODO: Send confirmation token
+        appUserRepository.save(appUser);
 
-        return "it works";
+        String token = UUID.randomUUID().toString();
+
+        ConfirmationToken confirmationToken =
+                new ConfirmationToken(token, LocalDateTime.now(),
+                        LocalDateTime.now().plusMinutes(15), appUser);
+
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        // TODO : Send Email
+        return token;
+    }
+
+    public int enableAppUser(String email) {
+        return appUserRepository.enableAppUser(email);
     }
 }
